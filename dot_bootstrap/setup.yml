@@ -1,0 +1,223 @@
+---
+- name: Machine setup
+  hosts: localhost
+  become: true
+  connection: local
+  gather_facts: true
+
+  tasks:
+    - name: Install HomeBrew Packages
+      become: false
+      hosts: localhost
+
+  # #   - name: Get my user
+  # #     ansible.builtin.set_fact:
+  # #       remote_regular_user: "{{ "{{" }} ansible_env.SUDO_USER or ansible_user_id {{ "}}" }}"
+  # #
+  # #   - name: Check install packages
+  # #     ansible.builtin.command: pacman -Qm
+  # #     register: installed_packages
+  #
+  #
+  #   # - name: Install AUR packages - xps-arch
+  #   #   become: false
+  #   #   ansible.builtin.command: "yay --noconfirm --noprogressbar --needed --sync {{ "{{" }} item {{ "}}"}}"
+  #   #   when: item not in installed_packages.stdout
+  #   #   with_items:
+  #   #     -
+  #
+  #
+  #   - name: Install AUR packages - default
+  #     become: false
+  #     ansible.builtin.command: "yay --noconfirm --noprogressbar --needed --sync {{ "{{" }} item {{ "}}"}}"
+  #     when: item not in installed_packages.stdout
+  #     with_items:
+  #       - proton-ge-custom
+  #
+  #   - name: Install AUR packages - desktop-arch
+  #     pacman:
+  #       name:
+  #          #games
+  #         - gamemode
+  #         - steam
+  #         - nvidia-dkms
+  #
+  #   - name: Install AUR packages - default
+  #     become: false
+  #     ansible.builtin.command: "yay --noconfirm --noprogressbar --needed --sync {{ "{{" }} item {{ "}}"}}"
+  #     when: item not in installed_packages.stdout
+  #     with_items:
+  #       - google-chrome
+  #       - powershell-bin
+  #       - icaclient
+  #       - spotify
+  #       - sddm-git
+  #       - rofi-lbonn-wayland-git
+  #       - swww
+  #       - swaylock-effects-git
+  #       - wlogout
+  #       - grimblast-git
+  #       - hyprpicker-git
+  #       - python-pyamdgpuinfo
+  #       - oh-my-zsh-git
+  #       - pokemon-colorscripts-git
+  #       - hyprdots-ctl
+  #       - immersed
+  #       - vmware-horizon-client
+  #       - swayidle
+  #
+  #   - name: Install packages
+  #     pacman:
+  #       name:
+  #         - lazygit
+  #         - chezmoi
+  #         - git
+  #         - htop
+  #         - neovim
+  #         - firefox
+  #         - github-cli
+  #         - go-task
+  #         - ripgrep
+  #         - zsh
+  #         - fzf
+  #         - tmux
+  #         - make
+  #         - rdesktop
+  #         - terraform
+  #         - helm
+  #         - kubectl
+  #         - npm
+  #         - aws-cli-v2
+  #         - sops
+  #         - direnv
+  #         - fluxcd
+  #         - age
+  #         - bitwarden-cli
+  #         #hyprland-rice
+  #         - pipewire
+  #         - pipewire-alsa
+  #         - pipewire-audio
+  #         - pipewire-jack
+  #         - pipewire-pulse
+  #         - gst-plugin-pipewire
+  #         - wireplumber
+  #         - networkmanager
+  #         - network-manager-applet
+  #         - bluez
+  #         - bluez-utils
+  #         - blueman
+  #         - qt5-wayland
+  #         - qt6-wayland
+  #         - qt5-quickcontrols
+  #         - qt5-quickcontrols2
+  #         - qt5-graphicaleffects
+  #         - hyprland
+  #         - dunst
+  #         - waybar
+  #         - slurp
+  #         - swappy
+  #         - cliphist
+  #         - polkit-kde-agent
+  #         - xdg-desktop-portal-hyprland
+  #         - pacman-contrib
+  #         - parallel
+  #         - jq
+  #         - imagemagick
+  #         - qt5-imageformats
+  #         - ffmpegthumbs
+  #         - kde-cli-tools
+  #         - brightnessctl
+  #         - pavucontrol
+  #         - pamixer
+  #         - nwg-look
+  #         - kvantum
+  #         - qt5ct
+  #         - kitty
+  #         - neofetch
+  #         - dolphin
+  #         - ark
+  #         - eza
+  #         - zsh-theme-powerlevel10k
+  #         - flatpak
+  #
+  #       state: present
+  #
+  #   - name: Enable and start services
+  #     ansible.builtin.service:
+  #       name: "{{ "{{" }} item {{ "}}"}}"
+  #       enabled: yes
+  #       state: started
+  #     loop:
+  #       - NetworkManager
+  #       - bluetooth
+  #       - sddm
+  #
+  #   - name: Change shell to zsh
+  #     ansible.builtin.user:
+  #       name: "{{ "{{" }} remote_regular_user {{ "}}"}}"
+  #       shell: /usr/bin/zsh
+  #
+  #   - name: Install Flatpak packages
+  #     community.general.flatpak:
+  #       name:
+  #         - com.obsproject.Studio
+  #         - org.videolan.VLC
+  #         - org.tenacityaudio.Tenacity
+  #         - md.obsidian.Obsidian
+  #         - org.gimp.GIMP
+  #         - com.discordapp.Discord
+  #         - org.signal.Signal
+  #         - org.inkscape.Inkscape
+  #         - org.kde.krita
+  #         - org.gimp.GIMP
+  #         - org.blender.Blender
+  #         - io.gitlab.theevilskeleton.Upscaler
+  #       state: present
+  #
+  #   - name: Change default shell to zsh for the user
+  #     user:
+  #       name: "{{ "{{" }} ansible_user_id {{ "}}"}}"
+  #       shell: /usr/bin/zsh
+  #
+  #   - name: Ensure fonts directory
+  #     ansible.builtin.file:
+  #       path: "~{{ "{{" }} remote_regular_user {{ "}}"}}/.local/share/fonts"
+  #       state: directory
+  #       mode: "0755"
+  #       owner: "{{ "{{" }} remote_regular_user {{ "}}"}}"
+  #
+  #   - name: Check if JetBrains Mono exists
+  #     ansible.builtin.shell: "ls ~{{ "{{" }} remote_regular_user {{ "}}"}}/.local/share/fonts/JetBrainsMonoNerd*FontMono*"
+  #     register: jetbrains_mono_exists
+  #     ignore_errors: true
+  #     changed_when: false
+  #
+  #   - name: Download JetBrains Mono
+  #     when: jetbrains_mono_exists is failed
+  #     ansible.builtin.unarchive:
+  #       src: https://github.com/ryanoasis/nerd-fonts/releases/download/v3.1.1/JetBrainsMono.zip
+  #       dest: "~{{ "{{" }} remote_regular_user {{ "}}" }}/.local/share/fonts/"
+  #       remote_src: true
+  #       mode: "0755"
+  #       owner: "{{ "{{" }} remote_regular_user {{ "}}"}}"
+  #
+  #   - name: Clone zsh-256color plugin
+  #     ansible.builtin.git:
+  #       repo: "https://github.com/chrissicool/zsh-256color"
+  #       dest: "/usr/share/oh-my-zsh/custom/plugins/zsh-256color"
+  #       version: "HEAD" # You could specify a branch or tag if needed
+  #     become: yes
+  #
+  #   - name: Clone zsh-syntax-highlighting plugin
+  #     ansible.builtin.git:
+  #       repo: "https://github.com/zsh-users/zsh-syntax-highlighting.git"
+  #       dest: "/usr/share/oh-my-zsh/custom/plugins/zsh-syntax-highlighting"
+  #       version: "HEAD" # You could specify a branch or tag if needed
+  #     become: yes
+  #
+  #   - name: Clone zsh-autosuggestions plugin
+  #     ansible.builtin.git:
+  #       repo: "https://github.com/zsh-users/zsh-autosuggestions.git"
+  #       dest: "/usr/share/oh-my-zsh/custom/plugins/zsh-autosuggestions"
+  #       version: "HEAD" # You could specify a branch or tag if needed
+  #     become: yes
