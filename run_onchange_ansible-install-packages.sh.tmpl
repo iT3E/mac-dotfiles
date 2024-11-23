@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# setup.yml.tmpl hash {{ include "dot_bootstrap/setup.yml.tmpl" | sha256sum }}
+ansible-playbook ~/.bootstrap/setup.yml --ask-become-pass
+
+echo "Ansible run on change complete."
